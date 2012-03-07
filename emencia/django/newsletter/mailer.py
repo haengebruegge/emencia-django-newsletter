@@ -56,6 +56,10 @@ from emencia.django.newsletter.settings import SUBSCRIBER_VERIFICATION
 from emencia.django.newsletter.settings import USE_TEMPLATE
 # --- template --- end --------------------------------------------------------
 
+# --- premailer actions --- start ---------------------------------------------
+from premailer import Premailer
+# --- premailer actions --- end -----------------------------------------------
+
 if not hasattr(timedelta, 'total_seconds'):
     def total_seconds(td):
         return ((td.microseconds +
@@ -100,6 +104,15 @@ class NewsLetterSender(object):
         all the attached files.
         """
         content_html = self.build_email_content(contact)
+
+        # --- premailer actions --- start -------------------------------------
+        p = Premailer(content_html)
+        pre_html = p.transform()
+
+        print type(pre_html)
+        print type(content_html)
+        # --- premailer actions --- end ---------------------------------------
+        
         content_text = html2text(content_html)
 
         message = MIMEMultipart()
