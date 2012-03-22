@@ -58,6 +58,7 @@ from emencia.django.newsletter.settings import USE_TEMPLATE
 
 # --- premailer actions --- start ---------------------------------------------
 from premailer import Premailer
+#~ from pypremailer import Premailer
 # --- premailer actions --- end -----------------------------------------------
 
 if not hasattr(timedelta, 'total_seconds'):
@@ -106,11 +107,32 @@ class NewsLetterSender(object):
         content_html = self.build_email_content(contact)
 
         # --- premailer actions --- start -------------------------------------
-        p = Premailer(content_html)
+        print content_html
+        p = Premailer(content_html, keep_style_tags=True, preserve_internal_links=True)
         pre_html = p.transform()
 
-        print type(pre_html)
-        print type(content_html)
+        #~ print '# --- START ---------------------------------------------------'
+        #~ print ''
+        #~ print pre_html
+        #~ print type(pre_html)
+        #~ print type(content_html)
+        #~ 
+        #~ t = Template(pre_html)
+        #~ pre_html = t.render(Context({}))
+        #~ 
+        #~ print pre_html
+        #~ print type(pre_html)
+        #~ print type(content_html)
+        #~ print ''
+        #~ print '# --- END -----------------------------------------------------'
+
+        content_html = pre_html
+
+        #~ p = Premailer(content_html)
+        #~ content_html = p.premail()
+#~ 
+        #~ print content_html
+        
         # --- premailer actions --- end ---------------------------------------
         
         content_text = html2text(content_html)
