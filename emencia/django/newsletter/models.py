@@ -180,6 +180,8 @@ class MailingList(models.Model):
     """Mailing list"""
     name = models.CharField(_('name'), max_length=255)
     description = models.TextField(_('description'), blank=True)
+    
+    public = models.BooleanField(_('public'), default=False)
 
     subscribers = models.ManyToManyField(Contact, verbose_name=_('subscribers'),
                                          related_name='mailinglist_subscriber')
@@ -251,6 +253,8 @@ class Newsletter(models.Model):
         )
     # --- templates --- end ---------------------------------------------------
 
+    public = models.BooleanField(_('public'), default=False)
+
     mailing_list = models.ForeignKey(MailingList, verbose_name=_('mailing list'))
     test_contacts = models.ManyToManyField(Contact, verbose_name=_('test contacts'),
                                            blank=True, null=True)
@@ -275,6 +279,8 @@ class Newsletter(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
+        if self.public:
+            return ('newsletter_newsletter_public', (self.slug,))
         return ('newsletter_newsletter_preview', (self.slug,))
 
     @models.permalink
