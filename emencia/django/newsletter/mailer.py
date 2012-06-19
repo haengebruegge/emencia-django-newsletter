@@ -107,34 +107,10 @@ class NewsLetterSender(object):
         content_html = self.build_email_content(contact)
 
         # --- premailer actions --- start -------------------------------------
-        print content_html
         p = Premailer(content_html, keep_style_tags=True, preserve_internal_links=True)
-        pre_html = p.transform()
-
-        #~ print '# --- START ---------------------------------------------------'
-        #~ print ''
-        #~ print pre_html
-        #~ print type(pre_html)
-        #~ print type(content_html)
-        #~ 
-        #~ t = Template(pre_html)
-        #~ pre_html = t.render(Context({}))
-        #~ 
-        #~ print pre_html
-        #~ print type(pre_html)
-        #~ print type(content_html)
-        #~ print ''
-        #~ print '# --- END -----------------------------------------------------'
-
-        content_html = pre_html
-
-        #~ p = Premailer(content_html)
-        #~ content_html = p.premail()
-#~ 
-        #~ print content_html
-        
+        content_html = p.transform()
         # --- premailer actions --- end ---------------------------------------
-        
+
         content_text = html2text(content_html)
 
         message = MIMEMultipart()
@@ -222,18 +198,18 @@ class NewsLetterSender(object):
 
         if INCLUDE_UNSUBSCRIPTION:
             unsubscribtion_exist = False
-            
+
             unsubscription = render_to_string(
                 'newsletter/newsletter_link_unsubscribe.html',
                 Context(pre_context)
             )
-            
+
             if '{{ unsubscription }}' in self.newsletter.content:
                 unsubscribtion_exist = True
                 pre_context['unsubscription'] = unsubscription
 
         context = Context(pre_context)
-        
+
         content = self.newsletter_template.render(context)
         if TRACKING_LINKS:
             content = track_links(content, context)
@@ -253,7 +229,7 @@ class NewsLetterSender(object):
 
             if not unsubscribtion_exist:
                 content_context['unsubscription'] = unsubscription
-            
+
             content =  render_to_string(
                 'mailtemplates/{0}/{1}'.format(
                     self.newsletter.template,
@@ -357,7 +333,7 @@ class Mailer(NewsLetterSender):
                     print '- No verified email: {0}'.format(contact.email)
                     continue
             # --- subscriber verification --- end -----------------------------
-            
+
             if self.verbose:
                 print '- Processing %s/%s (%s)' % (
                     i, number_of_recipients, contact.pk)

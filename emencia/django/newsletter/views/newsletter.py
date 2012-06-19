@@ -14,7 +14,8 @@ from emencia.django.newsletter.utils import render_string
 from emencia.django.newsletter.utils.newsletter import body_insertion
 from emencia.django.newsletter.utils.newsletter import track_links
 from emencia.django.newsletter.utils.tokens import untokenize
-from emencia.django.newsletter.settings import TRACKING_LINKS
+from emencia.django.newsletter.settings import TRACKING_LINKS, \
+    NEWSLETTER_CSS_PATH
 
 # --- template --- start ------------------------------------------------------
 from django.template.loader import render_to_string
@@ -62,7 +63,7 @@ def view_newsletter_preview(request, slug):
 
 def view_newsletter_public(request, slug):
     newsletter = Newsletter.objects.get(slug=slug)
-    
+
     if newsletter.public: return render_newsletter(request, slug, {})
 
     return render_to_response('newsletter/newsletter_forbidden.html')
@@ -78,3 +79,6 @@ def view_newsletter_contact(request, slug, uidb36, token):
                'uidb36': uidb36, 'token': token}
 
     return render_newsletter(request, slug, context)
+
+def view_newsletter_template(request, slug):
+        return render_to_response('%s/%s.css' % (NEWSLETTER_CSS_PATH, slug))

@@ -59,3 +59,7 @@ SUBSCRIBER_VERIFICATION = getattr(
 # --- templates --- start -----------------------------------------------------
 USE_TEMPLATE = getattr( settings, 'NEWSLETTER_USE_TEMPLATE', True)
 # --- templates --- end -------------------------------------------------------
+
+# --- newsletter css path --- start -------------------------------------------
+NEWSLETTER_CSS_PATH = getattr(settings, 'NEWSLETTER_USE_TEMPLATE', 'mailtemplates/newsletter_css')
+# --- newsletter css path --- end ---------------------------------------------

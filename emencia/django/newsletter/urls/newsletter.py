@@ -12,4 +12,6 @@ urlpatterns = patterns('emencia.django.newsletter.views.newsletter',
                        url(r'^(?P<slug>[-\w]+)/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
                            'view_newsletter_contact',
                            name='newsletter_newsletter_contact'),
+                       url(r'^newsletter_css/(?P<slug>[-\w]+).css$',
+                           'view_newsletter_template'),
                        )
