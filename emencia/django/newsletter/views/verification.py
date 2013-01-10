@@ -87,19 +87,21 @@ def view_uuid_verification(request, link_id, form_class=None):
         context['uuid_exist'] = True
         subscription['contact'] = subscription['object'].contact
 
+        print context['mailing_list_count']
+
         if context['mailing_list_count'] == 1:
             mailing_list = mailinglists.get().subscribers.add(
                 subscription['contact'].id
             )
             ready = True
-            
+
         elif request.POST:
             form = form_class(request.POST)
             if form.is_valid():
                 form.save(subscription['contact'].id)
                 context['send'] = True
                 ready = True
-                
+
         else:
             context['form'] = form_class()
 
@@ -107,10 +109,10 @@ def view_uuid_verification(request, link_id, form_class=None):
             subscription['contact'].verified = True
             subscription['contact'].save()
             subscription['object'].delete()
-        
+
     except SubscriberVerification.DoesNotExist:
         print '### 1.2'
-        
+
         context['uuid_exist'] = False
 
     return render_to_response('newsletter/uuid_verification.html',

@@ -244,6 +244,7 @@ class Newsletter(models.Model):
             _('template'),
             max_length=100,
             choices=get_templates(),
+            default=False
         )
     else:
         content = models.TextField(
