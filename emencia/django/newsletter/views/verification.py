@@ -87,8 +87,6 @@ def view_uuid_verification(request, link_id, form_class=None):
         context['uuid_exist'] = True
         subscription['contact'] = subscription['object'].contact
 
-        print context['mailing_list_count']
-
         if context['mailing_list_count'] == 1:
             mailing_list = mailinglists.get().subscribers.add(
                 subscription['contact'].id
@@ -111,8 +109,6 @@ def view_uuid_verification(request, link_id, form_class=None):
             subscription['object'].delete()
 
     except SubscriberVerification.DoesNotExist:
-        print '### 1.2'
-
         context['uuid_exist'] = False
 
     return render_to_response('newsletter/uuid_verification.html',
