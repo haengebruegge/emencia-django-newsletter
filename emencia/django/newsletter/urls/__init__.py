@@ -3,7 +3,10 @@
 # --- subscriber verification --- start ---------------------------------------
 from emencia.django.newsletter.settings import SUBSCRIBER_VERIFICATION
 # --- subscriber verification --- end -----------------------------------------
-from django.conf.urls.defaults import url, include, patterns
+try:
+    from django.conf.urls.defaults import url, include, patterns
+except ImportError:
+    from django.conf.urls import url, include, patterns
 
 urlpatterns = patterns('',
     url(r'^mailing/', include('emencia.django.newsletter.urls.mailing_list')),

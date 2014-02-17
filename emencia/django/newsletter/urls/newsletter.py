@@ -1,6 +1,10 @@
 """Urls for the emencia.django.newsletter Newsletter"""
-from django.conf.urls.defaults import url
-from django.conf.urls.defaults import patterns
+try:
+    from django.conf.urls.defaults import url
+    from django.conf.urls.defaults import patterns
+except ImportError:
+    from django.conf.urls import url
+    from django.conf.urls import patterns
 
 urlpatterns = patterns('emencia.django.newsletter.views.newsletter',
                        url(r'^preview/(?P<slug>[-\w]+)/$',
